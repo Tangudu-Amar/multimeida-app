@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Multimedia Processing</title>
+  <!-- <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: #a2d0ee;
+      display: flex;
+      justify-content: center;
+    }
+
+    .main {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+
+    .upload-button {
+      padding: 10px 20px;
+      background-color: #2d89ef;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+      transition: color 0.3s ease;
+    }
+
+
+    .upload-button:hover,
+    .custom-button:hover {
+      color: #02172f;
+    }
+
+
+    select {
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+
+    input[type="url"],
+    input[type="file"] {
+      margin-top: 10px;
+    }
+
+
+    .preview-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+
+    .preview-container img {
+      max-width: 100%;
+      max-height: 300px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-container video {
+      width: 100%;
+      max-width: 600px;
+      /* Limit to prevent overflow */
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .summary {
+      text-align: left;
+      max-width: 700px;
+      margin: 20px auto 0;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+
+    .summary-textarea {
+      width: 100%;
+      height: 200px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      resize: none;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      /* Optional: allows wrapping on smaller screens */
+    }
+
+    .btn {
+      width: 100%;
+      /* makes them take same container width */
+      max-width: 250px;
+      /* optional, to limit max size */
+      text-align: center;
+      margin: 10px 5px;
+      padding: 8px 16px;
+      background-color: #004aad;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #00338d;
+    }
+
+    .btn-copy {
+      background-color: #28a745;
+    }
+
+    .btn-copy:hover {
+      background-color: #218838;
+    }
+
+    .btn-download {
+      background-color: #2682e4;
+    }
+
+    .btn-download:hover {
+      background-color: #0056b3;
+    }
+
+    .custom-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .button-spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid rgb(163, 161, 161);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style> -->
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: linear-gradient(to right, #a2d0ee, #84b6f4);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .main {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px 40px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+
+
+    h1 {
+      margin-bottom: 25px;
+      font-size: 28px;
+      color: #00338d;
+    }
+
+    .upload-button,
+    .btn {
+      padding: 12px 20px;
+      background-color: #2d89ef;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .upload-button:hover,
+    .btn:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    select,
+    input[type="url"],
+    input[type="file"] {
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 500px;
+      font-size: 14px;
+    }
+
+    .preview-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+    }
+
+    .preview-container img,
+    .preview-container video {
+      max-width: 100%;
+      max-height: 350px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .summary {
+      text-align: left;
+      max-width: 760px;
+      margin: 25px auto 0;
+      padding: 16px;
+      background: #f7faff;
+      border-left: 5px solid #2d89ef;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .summary-textarea {
+      width: 100%;
+      height: 200px;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn-copy {
+      background-color: #28a745;
+    }
+
+    .btn-copy:hover {
+      background-color: #218838;
+    }
+
+    .btn-download {
+      text-decoration: none;
+      background-color: #007bff;
+    }
+
+    .btn-download:hover {
+      background-color: #0056b3;
+    }
+
+    .custom-button {
+      display: inline-flex;
+      margin-top: 30px;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .button-spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #999;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="main">
+    <div class="header-bar">
+      <h1>🎯 AI Multimedia Analyzer</h1>
+      <form action="{{ url_for('logout') }}" method="POST" style="margin: 0;">
+        <button type="submit" class="btn logout-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="icon icon-tabler icon-tabler-logout-2" style="vertical-align: middle; margin-right: 5px;">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+            <path d="M15 12h-12l3 -3" />
+            <path d="M6 15l-3 -3" />
+          </svg>
+          Logout
+        </button>
+      </form>
+    </div>
+
+    <form action="/analyze" method="POST" enctype="multipart/form-data" onsubmit="showLoadingOnButton(this)">
+      <div id="loading" style="display:none; font-weight: bold; color: #00338d; margin-top: 10px;">
+        ⏳ Analyzing your file... please wait.
+      </div>
+
+      <label for="file_type">Choose File Type:</label>
+      <select name="file_type" id="file_type" onchange="toggleFields()">
+        <option value="image">Image</option>
+        <option value="audio">Audio</option>
+        <option value="video">Video</option>
+      </select>
+
+
+      <!-- Image Upload Fields -->
+      <div id="imageInput">
+        <br>
+        <label for="fileInput" class="upload-button">Upload Image</label>
+        <input type="file" name="image" accept="image/*" id="fileInput" onchange="previewImage(event)"
+          style="display: none;" />
+
+        <p>OR</p>
+
+
+        <input type="url" name="image_url" id="imageURLInput" placeholder="Paste image URL here..."
+          style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px; border: 1px solid #ccc;"
+          oninput="previewImageFromURL(this.value)" />
+      </div>
+
+
+      <!-- Audio Upload Field -->
+      <div id="audioInput" style="display: none;">
+        <br>
+        <label for="audioFile" class="upload-button">Upload Audio</label>
+        <input type="file" style="display: none;" name="audio" accept="audio/*" id="audioFile"
+          onchange="previewAudio(event)" />
+      </div>
+
+
+      <!--Video Upload-->
+      <div id="videoInput" style="display: none;">
+        <br>
+        <label for="videoFile" class="upload-button">Upload Video</label>
+        <input type="file" style="display: none;" name="video" accept="video/*" id="videoFile"
+          onchange="previewVideo(event)" />
+      </div>
+
+      <div id="errorBox" style="display: none; color: red; font-weight: bold;"></div>
+      <div class="preview-container">
+        <img id="imagePreview" src="#" alt="Image Preview" style="display: none;" />
+        <audio id="audioPreview" controls style="display: none;"></audio>
+        <video id="videoPreview" controls style="display: none;"></video>
+
+        {% if summary %}
+        <div id="serverPreview">
+          {% if mode == 'image' and image_url %}
+          <img src="{{ image_url }}" alt="Uploaded Image" />
+          {% elif mode == 'audio' and audio_url %}
+          <audio controls>
+            <source src="{{ audio_url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+          {% elif mode == 'video' and video_url %}
+          <video controls>
+            <source src="{{ video_url }}" type="video/mp4">
+            Your browser does not support the video element.
+          </video>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="custom-button upload-button">
+        <span class="button-spinner" style="display: none;"></span>
+        <span class="button-text">Analyze</span>
+      </button>
+    </form>
+
+    {% if summary %}
+    <div class="summary">
+      <strong>Summary:</strong><br>
+
+      <textarea id="summaryText" readonly style="width: 100%; height: 200px;">{{ summary }}</textarea>
+
+      <div class="button-container">
+        <button class="btn btn-copy">📋 Copy to Clipboard</button>
+        <a href="{{ url_for('download_summary') }}" class="btn btn-download">⬇ Download as Word</a>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if "❌" in summary %}
+    <script>
+      document.getElementById("errorBox").innerText = "{{ summary }}";
+      document.getElementById("errorBox").style.display = "block";
+    </script>
+    {% endif %}
+  </div>
+
+  </div>
+</body>
+
+
+<script>
+  function toggleFields() {
+    const type = document.getElementById("file_type").value;
+    document.getElementById("imageInput").style.display = (type === "image") ? "block" : "none";
+    document.getElementById("audioInput").style.display = (type === "audio") ? "block" : "none";
+    document.getElementById("videoInput").style.display = (type === "video") ? "block" : "none";
+  }
+
+
+  function previewImage(event) {
+    hideServerPreview();
+    const file = event.target.files[0];
+    const maxSizeMB = 20;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(`❌ File too large! Max allowed size is ${maxSizeMB}MB.`);
+      event.target.value = "";
+      document.getElementById('imagePreview').style.display = 'none';
+      return;
+    }
+
+
+    const reader = new FileReader();
+    reader.onload = function () {
+      const output = document.getElementById('imagePreview');
+      output.src = reader.result;
+      output.style.display = 'block';
+    }
+    reader.readAsDataURL(file);
+  }
+
+
+  function previewAudio(event) {
+    hideServerPreview();
+    const file = event.target.files[0];
+    const maxSizeMB = 20;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(`❌ File too large! Max allowed size is ${maxSizeMB}MB.`);
+      event.target.value = "";
+      document.getElementById('audioPreview').style.display = 'none';
+      return;
+    }
+
+
+    const audioPreview = document.getElementById('audioPreview');
+    audioPreview.src = URL.createObjectURL(file);
+    audioPreview.style.display = 'block';
+    audioPreview.load();  // Reloads the audio element with new source
+  }
+
+
+  function previewVideo(event) {
+    hideServerPreview();
+    const file = event.target.files[0];
+    const maxSizeMB = 20;
+
+
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(`❌ File too large! Max allowed size is ${maxSizeMB}MB.`);
+      event.target.value = "";
+      document.getElementById('videoPreview').style.display = 'none';
+      return;
+    }
+
+
+    const videoPreview = document.getElementById('videoPreview');
+    videoPreview.src = URL.createObjectURL(file);
+    videoPreview.style.display = 'block';
+    videoPreview.load();  // Reloads the video element with new source
+  }
+
+
+  function previewImageFromURL(url) {
+    hideServerPreview();
+    const image = document.getElementById('imagePreview');
+    if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+      image.src = url;
+      image.style.display = 'block';
+    } else {
+      image.style.display = 'none';
+    }
+  }
+
+  function hideServerPreview() {
+    const serverPreview = document.getElementById('serverPreview');
+    if (serverPreview) {
+      serverPreview.style.display = 'none';
+    }
+  }
+
+  function copySummary() {
+    const summaryText = document.getElementById("summaryText");
+    summaryText.select();
+    document.execCommand("copy");
+    alert("Summary copied to clipboard!");
+  }
+
+  document.querySelector("form").addEventListener("submit", function () {
+    document.getElementById("loading").style.display = "block";
+  });
+
+  window.addEventListener("load", function () {
+    const loading = document.getElementById("loading");
+    const summary = document.getElementById("summaryText");
+    if (summary && summary.value.length > 0) {
+      loading.style.display = "none";
+    }
+  });
+
+  function showLoadingOnButton(form) {
+    const button = form.querySelector(".custom-button");
+    const spinner = button.querySelector(".button-spinner");
+    const text = button.querySelector(".button-text");
+
+    if (spinner && text) {
+      spinner.style.display = "inline-block";
+      text.textContent = "Analyzing...";
+    }
+
+    return true; // ✅ IMPORTANT: this allows the form to submit
+  }
+
+
+</script>
+
+</html>

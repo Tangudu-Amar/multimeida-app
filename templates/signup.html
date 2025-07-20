@@ -1,0 +1,273 @@
+<!-- <!DOCTYPE html>
+<html>
+<head><title>Signup</title></head>
+<body>
+  <h2>Sign Up</h2>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li style="color:red;">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <label>Username:</label><br>
+    <input type="text" name="username" required><br>
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+    <button type="submit">Create Account</button>
+  </form>
+
+  <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to right, #a2d0ee, #84b6f4);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signup-container {
+            width: 800px;
+            height: 500px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .signup-left {
+            background: linear-gradient(to top right, #2d89ef, #1b6ac9);
+            padding: 40px;
+            width: 50%;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .signup-left h2 {
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .signup-left input[type="text"],
+        .signup-left input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .signup-left button {
+            background-color: #fff;
+            color: #2d89ef;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .signup-left button:hover {
+            background-color: #d1e7ff;
+        }
+
+        .login-text {
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .login-text a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .signup-right {
+            width: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-right h1 {
+            font-size: 36px;
+            color: #2d89ef;
+            margin-bottom: 10px;
+        }
+
+        .signup-right p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Bubble Decorations */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #2d89ef, #1b6ac9);
+            opacity: 0.2;
+        }
+
+        .bubble1 {
+            width: 100px;
+            height: 100px;
+            top: 20px;
+            right: 40px;
+        }
+
+        .bubble2 {
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            left: 30px;
+        }
+
+        .bubble3 {
+            width: 40px;
+            height: 40px;
+            top: 100px;
+            left: 100px;
+        }
+        .app-title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="app-title">
+        🎯 <span>AI Multimedia Analyzer</span>
+    </div>
+
+    <div style="position: relative;margin-top: 60px;">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul style="
+          color: white;
+          background-color: #ff4d4d;
+          list-style: none;
+          padding: 10px;
+          margin: 0 auto 20px;
+          border-radius: 5px;
+          font-weight: bold;
+          position: absolute;
+          top: -40px;
+          left: 50%;
+          transform: translateX(-50%);
+          text-align: center;
+          width: fit-content;
+          max-width: 90%;
+          z-index: 999;
+        ">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <div class="signup-container">
+            <form class="signup-left" method="POST" action="{{ url_for('signup') }}"
+                onsubmit="return validatePassword()">
+                <h2>Sign Up</h2>
+                <input type="text" name="username" placeholder="User name" required>
+
+                <input type="password" name="password" id="password" placeholder="Password" required
+                    oninput="checkPasswordStrength()">
+
+                <!-- Validation message -->
+                <div id="passwordError" style="font-size: 12px; color: yellow; margin-bottom: 10px;"></div>
+
+                <button type="submit">Sign Up</button>
+                <div class="login-text">
+                    Already have an account? <a href="{{ url_for('login') }}">Log In</a>
+                </div>
+            </form>
+
+
+            <div class="signup-right">
+                <h1>WELCOME !</h1>
+                <p>Create your account to continue</p>
+
+                <!-- Bubble decorations -->
+                <div class="bubble bubble1"></div>
+                <div class="bubble bubble2"></div>
+                <div class="bubble bubble3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function validatePassword() {
+        const password = document.getElementById("password").value;
+        const errorDiv = document.getElementById("passwordError");
+
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+
+        if (!regex.test(password)) {
+            errorDiv.textContent = "Password must be 8–16 chars, include uppercase, lowercase, number, and symbol.";
+            return false; // ❌ Prevent form submission
+        }
+
+        errorDiv.textContent = ""; // ✅ Valid password
+        return true;
+    }
+
+    function checkPasswordStrength() {
+        const password = document.getElementById("password").value;
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+        const errorDiv = document.getElementById("passwordError");
+
+        if (!regex.test(password)) {
+            errorDiv.textContent = "Password must be 8–16 chars, include uppercase, lowercase, number, and symbol.";
+        } else {
+            errorDiv.textContent = "";
+        }
+    }
+</script>
+
+
+
+</html>
