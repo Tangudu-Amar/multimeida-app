@@ -11,3 +11,4 @@ torchaudio
 werkzeug
 python-docx
 mysql-connector-python
+gunicorn
