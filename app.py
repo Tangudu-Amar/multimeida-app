@@ -20,6 +20,7 @@ from flask import redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 import re  # Add this at the top of your file if not already
 
+# trigger rebuild
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
